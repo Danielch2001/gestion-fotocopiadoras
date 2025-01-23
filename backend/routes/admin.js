@@ -1,10 +1,11 @@
 const express = require('express');
-const { verificarToken } = require('../middlewares/authMiddleware');
-
 const router = express.Router();
+const verificarToken = require('../middlewares/authMiddleware');
+const verificarRol = require('../middlewares/verificarRol');
 
-router.get('/', verificarToken, (req, res) => {
-    res.status(200).json({ message: 'Bienvenido, Administrador' });
+// Ruta protegida para administrar el dashboard
+router.get('/dashboard', verificarToken, verificarRol(['admin']), (req, res) => {
+  res.status(200).json({ message: 'Bienvenido al panel de administración' });
 });
 
 module.exports = router;
