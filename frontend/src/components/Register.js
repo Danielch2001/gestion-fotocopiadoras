@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import '../styles/Register.css';
 
-function Register() {
+const Register = () => {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
-  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(''); // Para mostrar mensaje de éxito
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Validar contraseña en el frontend
+    // Validaciones en el frontend
+    if (nombre.trim().length < 3) {
+      setError('El nombre debe tener al menos 3 caracteres.');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(correo)) {
+      setError('Correo inválido.');
+      return;
+    }
+
     if (contraseña.length < 8) {
-      setMensaje('La contraseña debe tener al menos 8 caracteres');
+      setError('La contraseña debe tener al menos 8 caracteres.');
       return;
     }
 
@@ -22,23 +36,21 @@ function Register() {
         correo,
         contraseña,
       });
+      setSuccess(response.data.message); // Mostrar mensaje de éxito temporal
+      setError('');
 
-      const { token, usuario } = response.data;
-
-      // Guardar el token en localStorage
-      localStorage.setItem('token', token);
-      localStorage.setItem('usuario', JSON.stringify(usuario));
-
-      setMensaje('Usuario registrado exitosamente');
-    } catch (error) {
-      setMensaje(
-        error.response?.data?.message || 'Error al registrar usuario'
-      );
+      // Redirigir al login después de 2 segundos
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error al registrarse.');
+      setSuccess('');
     }
   };
 
   return (
-    <div>
+    <div className="register-container">
       <h1>Registro</h1>
       <form onSubmit={handleRegister}>
         <input
@@ -62,11 +74,12 @@ function Register() {
           onChange={(e) => setContraseña(e.target.value)}
           required
         />
-        <button type="submit">Registrar</button>
+        <button type="submit">Registrarse</button>
       </form>
-      {mensaje && <p>{mensaje}</p>}
+      {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
     </div>
   );
-}
+};
 
 export default Register;

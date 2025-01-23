@@ -3,8 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-// Importar rutas
 const authRoutes = require('./routes/auth');
+const usuariosRoutes = require('./routes/usuarios');
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,15 +14,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Ruta raíz
-app.get('/', (req, res) => {
-  res.send('Servidor funcionando correctamente');
-});
-
-// Usar rutas de autenticación
+// Rutas
 app.use('/api/auth', authRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 
-// Iniciar servidor
+const adminRoutes = require('./routes/admin');
+
+// Rutas protegidas para administradores
+app.use('/api/admin', adminRoutes);
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
