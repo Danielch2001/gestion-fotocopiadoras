@@ -7,7 +7,7 @@ const verificarToken = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Almacena la información del token en `req.user`
+    req.user = decoded; // Almacena el contenido decodificado del token (incluye `nombre`, `rol`, etc.)
     next();
   } catch (error) {
     res.status(400).json({ message: 'Token inválido.' });
@@ -15,6 +15,3 @@ const verificarToken = (req, res, next) => {
 };
 
 module.exports = verificarToken;
-
-
-

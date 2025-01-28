@@ -1,11 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './app';
-import { AuthProvider } from './AuthContext';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './app'; // Archivo principal de tu aplicación
+import { AuthProvider } from './AuthContext'; // Contexto de autenticación
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <Router>
     <AuthProvider>
-        <App />
-    </AuthProvider>,
-    document.getElementById('root')
+      <App />
+    </AuthProvider>
+  </Router>
 );

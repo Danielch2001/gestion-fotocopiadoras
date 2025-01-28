@@ -4,7 +4,7 @@ const verificarToken = require('../middlewares/authMiddleware');
 const verificarRol = require('../middlewares/verificarRol');
 
 // Ruta protegida para administrar el dashboard
-router.get('/dashboard', verificarToken, verificarRol(['admin']), (req, res) => {
+router.get('/AdminPanel', verificarToken, verificarRol(['admin']), (req, res) => {
   res.status(200).json({ message: 'Bienvenido al panel de administración' });
 });
 
