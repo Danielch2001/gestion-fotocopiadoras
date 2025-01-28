@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator'); // Librería para validar datos
 
 const register = async (req, res) => {
-  const { nombre, correo, contraseña, rol } = req.body;
+  const { nombre, correo, contraseña, rol, direccion, telefono } = req.body;
 
   try {
     // Validar datos
@@ -20,8 +20,23 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'La contraseña debe tener al menos 8 caracteres.' });
     }
 
+    if (rol !== "usuario" && rol !== "admin") {
+      return res.status(400).json({ message: 'Rol inválido, solo "usuario" o "admin" permitidos.' });
+    }
+
+    // Validar datos de cliente solo si el usuario es normal
+    if (rol === "usuario") {
+      if (!direccion || direccion.trim().length < 5) {
+        return res.status(400).json({ message: 'La dirección debe tener al menos 5 caracteres.' });
+      }
+
+      if (!telefono || !/^\d+$/.test(telefono)) {
+        return res.status(400).json({ message: 'El teléfono debe contener solo números.' });
+      }
+    }
+
     // Verificar si el correo ya está registrado
-    const existeUsuario = await pool.query('SELECT * FROM Usuarios WHERE correo = $1', [correo]);
+    const existeUsuario = await pool.query('SELECT * FROM usuarios WHERE correo = $1', [correo]);
     if (existeUsuario.rows.length > 0) {
       return res.status(400).json({ message: 'El correo ya está registrado.' });
     }
@@ -32,18 +47,29 @@ const register = async (req, res) => {
 
     // Insertar usuario en la base de datos
     const nuevoUsuario = await pool.query(
-      'INSERT INTO Usuarios (nombre, correo, contraseña, rol) VALUES ($1, $2, $3, $4) RETURNING *',
-      [nombre, correo, hashedPassword, rol || 'usuario']
+      `INSERT INTO usuarios (nombre, correo, contraseña, rol) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [nombre, correo, hashedPassword, rol]
     );
+
+    const idusuario = nuevoUsuario.rows[0].idusuario;
+
+    // Si es usuario normal, crear cliente asociado
+    if (rol === "usuario") {
+      await pool.query(
+        `INSERT INTO clientes (nombre, direccion, telefono, correo, idusuario) VALUES ($1, $2, $3, $4, $5)`,
+        [nombre, direccion, telefono, correo, idusuario]
+      );
+    }
 
     // Generar token JWT
     const token = jwt.sign(
-      { idUsuario: nuevoUsuario.rows[0].idusuario, rol: nuevoUsuario.rows[0].rol },
+      { idUsuario: idusuario, rol: rol },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente', token, rol: nuevoUsuario.rows[0].rol });
+    res.status(201).json({ message: 'Usuario registrado exitosamente', token, rol });
+
   } catch (error) {
     console.error('Error al registrar usuario:', error);
     res.status(500).json({ message: 'Error en el servidor' });

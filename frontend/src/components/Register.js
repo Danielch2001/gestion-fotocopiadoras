@@ -7,8 +7,10 @@ const Register = () => {
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(''); // Para mostrar mensaje de éxito
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -30,13 +32,25 @@ const Register = () => {
       return;
     }
 
+    if (direccion.trim().length < 5) {
+      setError('La dirección debe tener al menos 5 caracteres.');
+      return;
+    }
+
+    if (!/^\d+$/.test(telefono)) {
+      setError('El teléfono debe contener solo números.');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/api/auth/register', {
         nombre,
         correo,
         contraseña,
+        direccion,
+        telefono
       });
-      setSuccess(response.data.message); // Mostrar mensaje de éxito temporal
+      setSuccess(response.data.message);
       setError('');
 
       // Redirigir al login después de 2 segundos
@@ -72,6 +86,20 @@ const Register = () => {
           placeholder="Contraseña"
           value={contraseña}
           onChange={(e) => setContraseña(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Dirección"
+          value={direccion}
+          onChange={(e) => setDireccion(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Teléfono"
+          value={telefono}
+          onChange={(e) => setTelefono(e.target.value)}
           required
         />
         <button type="submit">Registrarse</button>

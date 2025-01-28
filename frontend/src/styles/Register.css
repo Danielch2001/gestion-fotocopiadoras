@@ -1,51 +1,13 @@
-.register-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.register-container h1 {
-  margin-bottom: 20px;
-}
-
-.register-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
 .register-container input {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.register-container button {
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.register-container button:hover {
-  background-color: #0056b3;
-}
-
-.register-container .error {
-  color: red;
-  font-size: 14px;
-}
-
-.register-container .success {
-  color: green;
-  font-size: 14px;
+.register-container input:focus {
+  border-color: #007bff;
+  outline: none;
 }
