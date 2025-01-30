@@ -1,1 +1,85 @@
 
+# TecnoQuito - Sistema de Gestión de Fotocopiadoras
+
+TecnoQuito es una aplicación web diseñada para la gestión de fotocopiadoras empresariales. Permite a los usuarios reservar, comprar y alquilar fotocopiadoras de manera eficiente, asegurando disponibilidad y mejorando la administración del equipo.
+
+## Tecnologías Utilizadas
+- **Frontend**: React.js con Context API para manejo de estado.
+- **Backend**: Node.js con Express.js.
+- **Base de Datos**: PostgreSQL con autenticación basada en JWT.
+- **Despliegue**: Amazon EC2.
+
+## Funcionalidades Implementadas
+
+### 1. Autenticación y Autorización
+- Registro de usuarios: Solo se permite el registro de usuarios normales (no administradores).
+- Inicio de sesión con JWT: Tokens generados al autenticarse.
+- Roles y permisos:
+  - Usuarios pueden ver y gestionar sus reservas, compras y alquileres.
+  - Administradores pueden gestionar el sistema, ver estadísticas y modificar el catálogo de fotocopiadoras.
+
+### 2. Gestión de Fotocopiadoras
+- Ver todas las fotocopiadoras disponibles en el sistema.
+- Buscar fotocopiadoras por modelo, marca o ubicación.
+- Filtrar por estado: Disponible, reservada, ocupada, en mantenimiento o vendida.
+
+### 3. Reservas, Compras y Alquileres
+- Reservar: Un usuario puede reservar una fotocopiadora disponible.
+- Comprar: Si está en venta, el usuario puede comprarla.
+- Alquilar: Opción de alquiler por un período determinado.
+
+### 4. Panel de Administración
+- Dashboard con estadísticas:
+  - Horas de mayor uso.
+  - Fechas más utilizadas.
+  - Fotocopiadoras más usadas.
+
+## Última Vista Implementada: Reserva de Fotocopiadoras
+
+### Características de la Vista
+- Botón de "Reserva", que al hacer clic muestra una tabla con las fotocopiadoras disponibles.
+- Búsqueda optimizada, con barra de búsqueda compacta.
+- Diseño responsivo, mejorando la experiencia en diferentes dispositivos.
+- Botón dinámico: Dependiendo del contexto, cambia entre "Reservar", "Comprar" o "Alquilar".
+
+## Principios SOLID Aplicados
+
+### 1. Principio de Responsabilidad Única (SRP)
+- Separación del frontend y backend en archivos organizados.
+- Cada función tiene un único propósito:
+  - `reservarFotocopiadora()`, `comprarFotocopiadora()`, `alquilarFotocopiadora()` están separadas.
+
+### 2. Principio de Abierto/Cerrado (OCP)
+- Se pueden agregar nuevos tipos de transacciones sin modificar código existente.
+- Uso de `tipo` para manejar diferentes acciones en la tabla.
+
+### 3. Principio de Sustitución de Liskov (LSP)
+- Implementado en la autenticación: tanto usuarios como administradores pueden autenticarse sin afectar la lógica principal.
+
+### 4. Principio de Segregación de Interfaces (ISP)
+- Separación de controladores y rutas específicas para cada entidad (`usuarios`, `fotocopiadoras`, `reservas`, etc.).
+
+### 5. Principio de Inversión de Dependencias (DIP)
+- Uso de `config/db.js` para manejar la conexión con PostgreSQL, desacoplando la base de datos del resto de la aplicación.
+
+## Patrones de Diseño Utilizados
+
+### 1. Patrón MVC (Modelo-Vista-Controlador)
+- Modelo: Manejo de datos en PostgreSQL.
+- Vista: Implementada en React.js con componentes reutilizables.
+- Controlador: Funciones en `controllers/` que manejan la lógica de negocio.
+
+### 2. Patrón Factory
+- Uso de funciones que crean y manejan las diferentes acciones de las fotocopiadoras (`reservar`, `comprar`, `alquilar`).
+
+### 3. Patrón Singleton
+- La conexión con la base de datos (`db.js`) se maneja con una única instancia para optimizar recursos.
+
+### 4. Patrón Observer
+- Context API en React permite que el estado global de autenticación se actualice automáticamente en toda la aplicación.
+
+## Próximos Pasos
+- Mejorar la gestión de estados en el frontend.
+- Implementar notificaciones para el usuario al realizar reservas o compras.
+- Agregar soporte para pagos en línea en futuras versiones.
+

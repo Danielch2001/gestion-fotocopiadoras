@@ -3,9 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
+
 const authRoutes = require('./routes/auth');
 const usuariosRoutes = require('./routes/usuarios');
-const reservaRoutes = require('./routes/reserva');
 const fotocopiadorasRoutes = require('./routes/fotocopiadoras');
 const operacionesRoutes = require("./routes/operaciones");
 const dashboardRoutes = require('./routes/dashboard');
@@ -24,7 +24,6 @@ app.use(bodyParser.json());
 // Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/reserva', reservaRoutes);
 app.use('/api/fotocopiadoras', fotocopiadorasRoutes);
 app.use("/api/operaciones", operacionesRoutes);
 app.use('/api/dashboard', dashboardRoutes);
