@@ -18,6 +18,12 @@ const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 5000;
 
+// CORS configurado para el frontend
+app.use(cors({
+  origin: ["http://3.144.47.31", "http://localhost:3000"],
+  credentials: true,
+}));
+
 // Middlewares
 app.use(cors());
 app.use(bodyParser.json());
