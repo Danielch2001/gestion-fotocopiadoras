@@ -3,11 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Dashboard from "./components/Dashboard"; // Mantiene el Dashboard de usuario
+import Dashboard from "./components/Dashboard";
 import Reportes from "./components/Reportes";
 import AdminPanel from "./components/AdminPanel";
 import GestionFotocopiadoras from "./components/GestionFotocopiadoras";
-import DashboardAdmin from "./components/DashboardAdmin"; // Nuevo DashboardAdmin
+import DashboardAdmin from "./components/DashboardAdmin";
+import NotificacionesAdmin from "./components/NotificacionesAdmin"; // Nuevo componente
 import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
@@ -16,6 +17,8 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      
+      {/* Rutas para usuarios normales */}
       <Route
         path="/dashboard"
         element={
@@ -24,6 +27,8 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+
+      {/* Rutas protegidas para Administradores */}
       <Route
         path="/admin"
         element={
@@ -53,6 +58,14 @@ const App = () => {
         element={
           <ProtectedRoute role="admin">
             <Reportes />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/notificaciones"
+        element={
+          <ProtectedRoute role="admin">
+            <NotificacionesAdmin />
           </ProtectedRoute>
         }
       />

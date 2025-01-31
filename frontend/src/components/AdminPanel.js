@@ -49,6 +49,7 @@ const AdminPanel = () => {
                 <button className="report-btn" onClick={handleGenerateReport}>
                     📊 Generar Reportes
                 </button>
+                <button onClick={() => navigate("/admin/notificaciones")}>🔔 Ver Notificaciones</button>
             </main>
         </div>
     );
