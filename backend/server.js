@@ -9,6 +9,7 @@ const usuariosRoutes = require('./routes/usuarios');
 const fotocopiadorasRoutes = require('./routes/fotocopiadoras');
 const operacionesRoutes = require("./routes/operaciones");
 const dashboardRoutes = require('./routes/dashboard');
+const reportesRoutes = require("./routes/reportesRoutes");
 
 //prueba rutas admin
 const adminRoutes = require('./routes/admin');
@@ -27,6 +28,7 @@ app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/fotocopiadoras', fotocopiadorasRoutes);
 app.use('/api/operaciones', operacionesRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use("/api", reportesRoutes);
 
 // Rutas protegidas para administradores
 app.use('/admin', adminRoutes);

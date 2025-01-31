@@ -1,12 +1,14 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
-import Dashboard from './components/Dashboard';
-import AdminPanel from './components/AdminPanel';
-import GestionFotocopiadoras from './components/GestionFotocopiadoras'; // Importar la nueva vista
-import ProtectedRoute from './ProtectedRoute';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard"; // Mantiene el Dashboard de usuario
+import Reportes from "./components/Reportes";
+import AdminPanel from "./components/AdminPanel";
+import GestionFotocopiadoras from "./components/GestionFotocopiadoras";
+import DashboardAdmin from "./components/DashboardAdmin"; // Nuevo DashboardAdmin
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   return (
@@ -35,6 +37,22 @@ const App = () => {
         element={
           <ProtectedRoute role="admin">
             <GestionFotocopiadoras />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute role="admin">
+            <DashboardAdmin />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/reportes"
+        element={
+          <ProtectedRoute role="admin">
+            <Reportes />
           </ProtectedRoute>
         }
       />

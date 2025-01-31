@@ -1,16 +1,24 @@
-import React, { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { AuthContext } from './AuthContext';
+import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
-const ProtectedRoute = ({ children, role }) => {
+const ProtectedRoute = ({ role, children }) => {
   const { user } = useContext(AuthContext);
 
-  // Si no hay usuario autenticado o el rol no coincide
-  if (!user || (role && user.rol !== role)) {
+  console.log("Usuario actual:", user); // 🔍 Verifica si user existe
+  console.log("Rol esperado:", role);
+  
+  if (!user) {
+    console.log("Redirigiendo a login...");
     return <Navigate to="/login" />;
   }
 
-  return children; // Si está autenticado y tiene el rol correcto
+  if (role && user.rol !== role) {
+    console.log(`Acceso denegado. Esperado: ${role}, encontrado: ${user.rol}`);
+    return <Navigate to="/" />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

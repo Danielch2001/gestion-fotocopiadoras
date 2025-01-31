@@ -116,7 +116,7 @@ const FotocopiadorasTable = ({ fotocopiadoras, tipo }) => {
             <th>Marca</th>
             <th>Ubicación</th>
             <th>Fecha Inicio</th>
-            {tipo === "alquiler" && <th>Fecha Fin</th>}
+            {tipo === "alquiler" || tipo === "reserva" ? <th>Fecha Fin</th> : null} {/* ✅ Ahora también para reservas */}
             <th>Acción</th>
           </tr>
         </thead>
@@ -133,7 +133,7 @@ const FotocopiadorasTable = ({ fotocopiadoras, tipo }) => {
                   onChange={(e) => handleDateChange(fotocopiadora.idfotocopiadora, "fechainicio", e.target.value)}
                 />
               </td>
-              {tipo === "alquiler" && (
+              {(tipo === "alquiler" || tipo === "reserva") && (
                 <td>
                   <input
                     type="date"
@@ -145,7 +145,9 @@ const FotocopiadorasTable = ({ fotocopiadoras, tipo }) => {
               <td>
                 <button
                   onClick={() => handleAccion(fotocopiadora.idfotocopiadora)}
-                  disabled={tipo === "alquiler" && (!selectedDates[fotocopiadora.idfotocopiadora]?.fechainicio || !selectedDates[fotocopiadora.idfotocopiadora]?.fechafin)}
+                  disabled={(tipo === "alquiler" || tipo === "reserva") &&
+                    (!selectedDates[fotocopiadora.idfotocopiadora]?.fechainicio ||
+                      !selectedDates[fotocopiadora.idfotocopiadora]?.fechafin)}
                 >
                   {tipo === "reserva" ? "Reservar" : tipo === "compra" ? "Comprar" : "Alquilar"}
                 </button>
@@ -153,6 +155,7 @@ const FotocopiadorasTable = ({ fotocopiadoras, tipo }) => {
             </tr>
           ))}
         </tbody>
+
       </table>
     </div>
   );

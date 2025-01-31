@@ -1,0 +1,50 @@
+.dashboard-admin {
+    width: 100%;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  /* 🔹 Barra superior */
+  .admin-header {
+    background-color: #2c3e50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    color: white;
+  }
+  
+  .admin-header h1 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* 🔹 Diseño de Tarjetas */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .dashboard-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  

@@ -1,0 +1,54 @@
+.admin-main {
+    padding: 20px;
+  }
+  
+  .reportes-filtros {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .reportes-filtros label {
+    font-weight: bold;
+  }
+  
+  .reportes-filtros input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .report-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .report-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .reporte-resultados {
+    margin-top: 20px;
+  }
+  
+  .reporte-resultados table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .reporte-resultados th, .reporte-resultados td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .reporte-resultados th {
+    background-color: #007bff;
+    color: white;
+  }
+  

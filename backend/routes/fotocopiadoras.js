@@ -1,4 +1,5 @@
 const express = require("express");
+const { check, validationResult } = require("express-validator");
 const router = express.Router();
 const {
   getAllFotocopiadoras,
@@ -10,19 +11,31 @@ const {
 const verificarToken = require("../middlewares/authMiddleware");
 const verificarRol = require("../middlewares/verificarRol");
 
-// 📌 Ruta para obtener todas las fotocopiadoras (solo admin)
-router.get("/", verificarToken, verificarRol(["admin"]), getAllFotocopiadoras);
+// Middleware para verificar admin
+const authAdmin = [verificarToken, verificarRol(["admin"])];
 
-// 📌 Ruta para obtener fotocopiadoras disponibles
+// 📌 Rutas de fotocopiadoras
+router.get("/", authAdmin, getAllFotocopiadoras);
 router.get("/disponibles", getFotocopiadorasDisponibles);
 
-// 📌 Ruta para agregar una nueva fotocopiadora (solo admin)
-router.post("/", verificarToken, verificarRol(["admin"]), addFotocopiadora);
+router.post("/", authAdmin, [
+  check("modelo").notEmpty().withMessage("El modelo es obligatorio"),
+  check("precio").isNumeric().withMessage("El precio debe ser un número"),
+], validateRequest, addFotocopiadora);
 
-// 📌 Ruta para actualizar una fotocopiadora (solo admin)
-router.put("/:id", verificarToken, verificarRol(["admin"]), updateFotocopiadora);
+router.put("/:id", authAdmin, [
+  check("id").isInt().withMessage("ID inválido"),
+], validateRequest, updateFotocopiadora);
 
-// 📌 Ruta para eliminar una fotocopiadora (solo admin)
-router.delete("/:id", verificarToken, verificarRol(["admin"]), deleteFotocopiadora);
+router.delete("/:id", authAdmin, deleteFotocopiadora);
+
+// Middleware de validación de datos
+function validateRequest(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+}
 
 module.exports = router;
