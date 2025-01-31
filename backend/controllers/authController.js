@@ -80,13 +80,12 @@ const login = async (req, res) => {
   const { correo, contraseña } = req.body;
 
   try {
-    // Validar si el usuario existe
     const usuario = await pool.query('SELECT * FROM Usuarios WHERE correo = $1', [correo]);
+
     if (usuario.rows.length === 0) {
       return res.status(401).json({ message: 'Correo o contraseña incorrectos' });
     }
 
-    // Verificar la contraseña
     const validPassword = await bcrypt.compare(contraseña, usuario.rows[0].contraseña);
     if (!validPassword) {
       return res.status(401).json({ message: 'Correo o contraseña incorrectos' });
@@ -94,16 +93,26 @@ const login = async (req, res) => {
 
     // Generar token JWT
     const token = jwt.sign(
-      { idUsuario: usuario.rows[0].idusuario, rol: usuario.rows[0].rol, nombre: usuario.rows[0].nombre },
+      { idUsuario: usuario.rows[0].idusuario, rol: usuario.rows[0].rol },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    res.status(200).json({ message: 'Login exitoso', token, rol: usuario.rows[0].rol,nombre: usuario.rows[0].nombre });
+    res.status(200).json({ 
+      message: 'Login exitoso', 
+      token, 
+      id: usuario.rows[0].idusuario, 
+      rol: usuario.rows[0].rol, 
+      nombre: usuario.rows[0].nombre,
+      correo: usuario.rows[0].correo
+    });
+
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     res.status(500).json({ message: 'Error en el servidor' });
   }
 };
+
+
 
 module.exports = { register, login };

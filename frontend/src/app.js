@@ -2,9 +2,10 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
-import Register from './components/Register'; // Importar Register
+import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import AdminPanel from './components/AdminPanel';
+import GestionFotocopiadoras from './components/GestionFotocopiadoras'; // Importar la nueva vista
 import ProtectedRoute from './ProtectedRoute';
 
 const App = () => {
@@ -12,7 +13,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} /> {/* Agregar ruta del registro */}
+      <Route path="/register" element={<Register />} />
       <Route
         path="/dashboard"
         element={
@@ -26,6 +27,14 @@ const App = () => {
         element={
           <ProtectedRoute role="admin">
             <AdminPanel />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/fotocopiadoras"
+        element={
+          <ProtectedRoute role="admin">
+            <GestionFotocopiadoras />
           </ProtectedRoute>
         }
       />

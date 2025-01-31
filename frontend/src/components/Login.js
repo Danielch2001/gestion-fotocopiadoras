@@ -18,14 +18,16 @@ const Login = () => {
         correo,
         contraseña,
       });
-      const { token, rol, nombre } = response.data;
+
+      const { token, id, rol, nombre } = response.data; // 🔹 Asegurar que `id` se recibe
 
       // Guarda en el contexto y localStorage
-      login({ token, rol, correo, nombre });
+      login({ token, id, rol, correo, nombre });
 
       // Redirige basado en el rol
       navigate(rol === 'admin' ? '/admin' : '/dashboard');
-    } catch {
+    } catch (error) {
+      console.error("Error en el inicio de sesión:", error);
       setError('Correo o contraseña incorrectos');
     }
   };

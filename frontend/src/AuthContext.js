@@ -4,32 +4,32 @@ import { useNavigate } from 'react-router-dom';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  // 📌 Cargar el usuario desde localStorage al iniciar
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const rol = localStorage.getItem('rol');
-    const correo = localStorage.getItem('correo');
-    const nombre = localStorage.getItem('nombre');
-
-    if (token && rol && correo && nombre) {
-      setUser({ token, rol, correo, nombre });
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user)); // Guardar en localStorage
+    } else {
+      localStorage.removeItem('user'); // Eliminar si no hay usuario
     }
-  }, []);
+  }, [user]);
 
-  const login = ({ token, rol, correo, nombre }) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('rol', rol);
-    localStorage.setItem('correo', correo);
-    localStorage.setItem('nombre', nombre); // Guarda el nombre en localStorage
-    setUser({ token, rol, correo, nombre });
+  const login = ({ token, id, rol, correo, nombre }) => {
+    const userData = { token, id, rol, correo, nombre };
+    localStorage.setItem('user', JSON.stringify(userData)); // Guardar en localStorage
+    setUser(userData);
   };
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem('user'); // Eliminar usuario al cerrar sesión
     setUser(null);
-    navigate('/login'); // Redirige al login
+    navigate('/login');
   };
 
   return (

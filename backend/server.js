@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/fotocopiadoras', fotocopiadorasRoutes);
-app.use("/api/operaciones", operacionesRoutes);
+app.use('/api/operaciones', operacionesRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
 // Rutas protegidas para administradores

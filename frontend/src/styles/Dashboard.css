@@ -94,3 +94,10 @@
     font-size: 18px;
     line-height: 1.5;
 }
+
+.menu button.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+  
