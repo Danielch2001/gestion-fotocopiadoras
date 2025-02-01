@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/tu_usuario/gestion-fotocopiadoras.git'  // Reemplaza con tu repo
+                git 'https://github.com/Danielch2001/gestion-fotocopiadoras'  
             }
         }
 
