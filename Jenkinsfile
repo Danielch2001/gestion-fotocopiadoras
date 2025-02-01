@@ -14,21 +14,23 @@ pipeline {
         }
 
         stage('Pre-build: Lint & Audit') {
-            steps {
-                script {
-                    dir('backend') {
-                        sh 'npm install'
-                        sh 'npx eslint . --fix'
-                        sh 'npm audit --production'
-                    }
-                    dir('frontend') {
-                        sh 'npm install'
-                        sh 'npx eslint . --fix'
-                        sh 'npm audit --production'
-                    }
+        steps {
+            script {
+                dir('backend') {
+                    sh 'npm install'
+                    sh 'chmod +x node_modules/.bin/eslint'
+                    sh 'npx eslint . --fix'
+                    sh 'npm audit --production'
+                 }
+                dir('frontend') {
+                    sh 'npm install'
+                    sh 'chmod +x node_modules/.bin/eslint'
+                    sh 'npx eslint . --fix'
+                    sh 'npm audit --production'
                 }
+                }
+             }
             }
-        }
 
         stage('Build') {
             steps {
