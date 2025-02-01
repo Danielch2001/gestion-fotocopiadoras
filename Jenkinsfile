@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'Node 18'
+        nodejs 'Node 20'
     }
-
 
     stages {
         stage('Checkout') {
@@ -14,23 +13,23 @@ pipeline {
         }
 
         stage('Pre-build: Lint & Audit') {
-        steps {
-            script {
-                dir('backend') {
-                    sh 'npm install'
-                    sh 'chmod +x node_modules/.bin/eslint'
-                    sh 'npx eslint . --fix'
-                    sh 'npm audit --production'
-                 }
-                dir('frontend') {
-                    sh 'npm install'
-                    sh 'chmod +x node_modules/.bin/eslint'
-                    sh 'npx eslint . --fix'
-                    sh 'npm audit --production'
+            steps {
+                script {
+                    dir('backend') {
+                        sh 'npm install'
+                        sh 'chmod +x node_modules/.bin/eslint'
+                        sh 'npx eslint . --fix'
+                        sh 'npm audit --omit=dev'
+                    }
+                    dir('frontend') {
+                        sh 'npm install'
+                        sh 'chmod +x node_modules/.bin/eslint'
+                        sh 'npx eslint . --fix'
+                        sh 'npm audit --omit=dev'
+                    }
                 }
-                }
-             }
             }
+        }
 
         stage('Build') {
             steps {
