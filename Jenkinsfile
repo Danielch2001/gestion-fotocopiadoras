@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Danielch2001/gestion-fotocopiadoras'  
+                git branch: 'main', url: 'https://github.com/Danielch2001/gestion-fotocopiadoras.git' 
             }
         }
 
