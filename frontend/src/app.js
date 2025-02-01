@@ -5,10 +5,11 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import Reportes from "./components/Reportes";
+import ReportesReto from "./components/ReportesReto"; // Nuevo componente 📌
 import AdminPanel from "./components/AdminPanel";
 import GestionFotocopiadoras from "./components/GestionFotocopiadoras";
 import DashboardAdmin from "./components/DashboardAdmin";
-import NotificacionesAdmin from "./components/NotificacionesAdmin"; // Nuevo componente
+import NotificacionesAdmin from "./components/NotificacionesAdmin"; 
 import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
@@ -58,6 +59,14 @@ const App = () => {
         element={
           <ProtectedRoute role="admin">
             <Reportes />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/reportesReto"
+        element={
+          <ProtectedRoute role="admin">
+            <ReportesReto /> {/* 📌 Nueva ruta */}
           </ProtectedRoute>
         }
       />
